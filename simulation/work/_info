@@ -1,0 +1,117 @@
+m255
+K4
+z2
+13
+cModel Technology
+dC:/usr/jca/FEUP/Aulas/PSDI-1415/trabalhos/Lab1/Sim/lab1
+!s112 0.1
+!i10d 8192
+!i10e 25
+!i10f 100
+vFIR
+Z0 V`JN@9S9cnhjKRR_L]QIcM3
+r1
+31
+IAOUaQEB1J0CEIGhL@@OHj2
+Z1 dC:/usr/jca/FEUP/Aulas/PSDI-1415/trabalhos/T3/LAB3_REFERENCE_DESIGN/simulation
+w1418034821
+8C:/usr/jca/FEUP/Aulas/PSDI-1415/trabalhos/T3/LAB3_REFERENCE_DESIGN/src/verilog-rtl/FIR.v
+FC:/usr/jca/FEUP/Aulas/PSDI-1415/trabalhos/T3/LAB3_REFERENCE_DESIGN/src/verilog-rtl/FIR.v
+L0 3
+Z2 OE;L;10.2c;57
+Z3 o-work work -L mtiAvm -L mtiOvm -L mtiUvm -L mtiUPF
+n@f@i@r
+!s90 -reportprogress|300|-work|work|-vopt|C:/usr/jca/FEUP/Aulas/PSDI-1415/trabalhos/T3/LAB3_REFERENCE_DESIGN/src/verilog-rtl/FIR.v|
+!s100 d9NId5Y<oVNajI9dbPko_3
+!s108 1418034827.103000
+!s107 C:/usr/jca/FEUP/Aulas/PSDI-1415/trabalhos/T3/LAB3_REFERENCE_DESIGN/src/verilog-rtl/FIR.v|
+!s85 0
+!i10b 1
+!i111 0
+Tpsdifir_opt
+!s110 1418035242
+V;Wo:0WX60>>fjIQ]OnNSD3
+04 14 4 work psdifir_top_tb fast 0
+o-O5
+npsdifir_opt
+OE;O;10.2c;57
+vpsdifir_top
+Z4 V`JN@9S9cnhjKRR_L]QIcM3
+r1
+31
+Ije8fKz8aco8h=2gEnH2eO2
+R1
+w1418032186
+8C:/usr/jca/FEUP/Aulas/PSDI-1415/trabalhos/T3/LAB3_REFERENCE_DESIGN/src/verilog-rtl/psdifir_top.v
+FC:/usr/jca/FEUP/Aulas/PSDI-1415/trabalhos/T3/LAB3_REFERENCE_DESIGN/src/verilog-rtl/psdifir_top.v
+L0 9
+R2
+R3
+!s90 -reportprogress|300|-work|work|-vopt|C:/usr/jca/FEUP/Aulas/PSDI-1415/trabalhos/T3/LAB3_REFERENCE_DESIGN/src/verilog-rtl/psdifir_top.v|
+!s100 Fhh8VRWL0zb_RfGWBeW=[0
+!s108 1418032230.448000
+!s107 C:/usr/jca/FEUP/Aulas/PSDI-1415/trabalhos/T3/LAB3_REFERENCE_DESIGN/src/verilog-rtl/psdifir_top.v|
+!s85 0
+!i10b 1
+!i111 0
+vpsdifir_top_tb
+IUmc`XjjKGcL>Q:AT>bUYO0
+R4
+R1
+w1418035189
+8C:/usr/jca/FEUP/Aulas/PSDI-1415/trabalhos/T3/LAB3_REFERENCE_DESIGN/src/verilog-tb/psdifir_top_tb.v
+FC:/usr/jca/FEUP/Aulas/PSDI-1415/trabalhos/T3/LAB3_REFERENCE_DESIGN/src/verilog-tb/psdifir_top_tb.v
+L0 3
+R2
+r1
+31
+R3
+Z5 !s110 1418035217
+!s90 -reportprogress|300|-work|work|-vopt|C:/usr/jca/FEUP/Aulas/PSDI-1415/trabalhos/T3/LAB3_REFERENCE_DESIGN/src/verilog-tb/psdifir_top_tb.v|
+!s100 Z>JCcP7RTJzf7o1MoTVja0
+!s108 1418035217.315000
+!s107 C:/usr/jca/FEUP/Aulas/PSDI-1415/trabalhos/T3/LAB3_REFERENCE_DESIGN/src/verilog-tb/psdifir_top_tb.v|
+!i10b 1
+!s85 0
+!i111 0
+vRAM_CB_16k
+R5
+I^nANeeoFBXVl2O^68;d7c3
+R4
+R1
+w1418035163
+8C:/usr/jca/FEUP/Aulas/PSDI-1415/trabalhos/T3/LAB3_REFERENCE_DESIGN/src/verilog-rtl/RAM_CB_16k.v
+FC:/usr/jca/FEUP/Aulas/PSDI-1415/trabalhos/T3/LAB3_REFERENCE_DESIGN/src/verilog-rtl/RAM_CB_16k.v
+L0 32
+R2
+r1
+31
+R3
+n@r@a@m_@c@b_16k
+!s90 -reportprogress|300|-work|work|-vopt|C:/usr/jca/FEUP/Aulas/PSDI-1415/trabalhos/T3/LAB3_REFERENCE_DESIGN/src/verilog-rtl/RAM_CB_16k.v|
+!i10b 1
+!s100 KfEKL^<HdII7hH=BI?2MB2
+!s85 0
+!s108 1418035217.421000
+!s107 C:/usr/jca/FEUP/Aulas/PSDI-1415/trabalhos/T3/LAB3_REFERENCE_DESIGN/src/verilog-rtl/RAM_CB_16k.v|
+!i111 0
+vRAM_coefs
+R4
+r1
+31
+IfCLPZ_GZ0jcFBAZF3GjEe1
+R1
+w1417985262
+8C:/usr/jca/FEUP/Aulas/PSDI-1415/trabalhos/T3/LAB3_REFERENCE_DESIGN/src/verilog-rtl/RAM_coefs.v
+FC:/usr/jca/FEUP/Aulas/PSDI-1415/trabalhos/T3/LAB3_REFERENCE_DESIGN/src/verilog-rtl/RAM_coefs.v
+L0 3
+R2
+R3
+n@r@a@m_coefs
+!s100 m=_@I;C=j7a3zJc1Dm8`W0
+!s90 -reportprogress|300|-work|work|-vopt|C:/usr/jca/FEUP/Aulas/PSDI-1415/trabalhos/T3/LAB3_REFERENCE_DESIGN/src/verilog-rtl/RAM_coefs.v|
+!s108 1418031001.401000
+!s107 C:/usr/jca/FEUP/Aulas/PSDI-1415/trabalhos/T3/LAB3_REFERENCE_DESIGN/src/verilog-rtl/RAM_coefs.v|
+!s85 0
+!i10b 1
+!i111 0

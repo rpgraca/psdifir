@@ -1,0 +1,36 @@
+C:/usr/jca/FEUP/Aulas/PSDI-1415/trabalhos/T3/LAB3_REFERENCE_DESIGN/src/verilog-rtl/RAM_CB_16k.v {1 {vlog -work work -vopt C:/usr/jca/FEUP/Aulas/PSDI-1415/trabalhos/T3/LAB3_REFERENCE_DESIGN/src/verilog-rtl/RAM_CB_16k.v
+QuestaSim vlog 10.2c Compiler 2013.07 Jul 18 2013
+-- Compiling module RAM_CB_16k
+
+Top level modules:
+	RAM_CB_16k
+
+} {} {}} C:/usr/jca/FEUP/Aulas/PSDI-1415/trabalhos/T3/LAB3_REFERENCE_DESIGN/src/verilog-rtl/FIR.v {1 {vlog -work work -vopt C:/usr/jca/FEUP/Aulas/PSDI-1415/trabalhos/T3/LAB3_REFERENCE_DESIGN/src/verilog-rtl/FIR.v
+QuestaSim vlog 10.2c Compiler 2013.07 Jul 18 2013
+-- Compiling module FIR
+
+Top level modules:
+	FIR
+
+} {} {}} C:/usr/jca/FEUP/Aulas/PSDI-1415/trabalhos/T3/LAB3_REFERENCE_DESIGN/src/verilog-rtl/psdifir_top.v {1 {vlog -work work -vopt C:/usr/jca/FEUP/Aulas/PSDI-1415/trabalhos/T3/LAB3_REFERENCE_DESIGN/src/verilog-rtl/psdifir_top.v
+QuestaSim vlog 10.2c Compiler 2013.07 Jul 18 2013
+-- Compiling module psdifir_top
+
+Top level modules:
+	psdifir_top
+
+} {} {}} C:/usr/jca/FEUP/Aulas/PSDI-1415/trabalhos/T3/LAB3_REFERENCE_DESIGN/src/verilog-rtl/RAM_coefs.v {1 {vlog -work work -vopt C:/usr/jca/FEUP/Aulas/PSDI-1415/trabalhos/T3/LAB3_REFERENCE_DESIGN/src/verilog-rtl/RAM_coefs.v
+QuestaSim vlog 10.2c Compiler 2013.07 Jul 18 2013
+-- Compiling module RAM_coefs
+
+Top level modules:
+	RAM_coefs
+
+} {} {}} C:/usr/jca/FEUP/Aulas/PSDI-1415/trabalhos/T3/LAB3_REFERENCE_DESIGN/src/verilog-tb/psdifir_top_tb.v {1 {vlog -work work -vopt C:/usr/jca/FEUP/Aulas/PSDI-1415/trabalhos/T3/LAB3_REFERENCE_DESIGN/src/verilog-tb/psdifir_top_tb.v
+QuestaSim vlog 10.2c Compiler 2013.07 Jul 18 2013
+-- Compiling module psdifir_top_tb
+
+Top level modules:
+	psdifir_top_tb
+
+} {} {}}
