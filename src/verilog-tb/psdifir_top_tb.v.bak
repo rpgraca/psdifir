@@ -99,7 +99,7 @@ begin
 	  
 	  #( 10*CLOCK_PERIOD );
 	  if ( ram_address % 100 == 0 )
-	    $write("Verified %d samples at %d time\n", ram_address, $time);
+	    $write("Verified %d samples\n", ram_address );
   
     // 
     if ( ram_address == MAX_SIM_SAMPLES )

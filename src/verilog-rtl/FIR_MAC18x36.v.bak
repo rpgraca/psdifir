@@ -83,7 +83,7 @@ begin
 	 
 	 rBh  <= Bh;
 	 
-     mul_low  <= rA * rBl; // A small trick to mix signed and unsigned operands
+     mul_low  <= rA * $signed({1'b0,rBl}); // A small trick to mix signed and unsigned operands
     // mul_low  <= rA * rBl;
 	 MAC_OUT_low0  <= MAC_OUT_low0  + mul_low;
   end

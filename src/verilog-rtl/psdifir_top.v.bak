@@ -29,9 +29,9 @@ output              dataout_ready;
 //-----------------------------------------------------------------------------
 // Interface with the coefficients memory:
 // Address buses:
-wire [10:0] addr_coef_left, addr_coef_right;
+wire [11:0] addr_coef_left, addr_coef_right;
 // Data bus (read only):
-wire [283:0] coef_4_left, coef_4_right;
+wire [143:0] coef_4_left, coef_4_right;
 
 //-----------------------------------------------------------------------------
 // The coefficients memory (only the left read port is used in this example)
@@ -51,7 +51,7 @@ RAM_coefs  RAM_coefs_1(
 			
 			  // Read interface
 			  .addrL( addr_coef_left ),    // address bus for the left coefficients
-			  .addrR( 11'd0 ),             // UNUSED - Address bus for the right coefficients
+			  .addrR( 12'd0 ),             // UNUSED - Address bus for the right coefficients
 			  .coefL( coef_4_left ),       // 144 bit, 4 left coefficients ( 4 x 36 )
 			  .coefR(  )                   // UNUSED - 144 bit, 4 right coefficients ( 4 x 36 )
                );
@@ -59,8 +59,8 @@ RAM_coefs  RAM_coefs_1(
 //-----------------------------------------------------------------------------			   
 // Interface with the circular buffer memory 
 // Only one buffer is used in this example (left channel) 
-wire [10:0] datacb_addr;    // read address
-wire [143:0] datacb;         // data read, 4 samples = 4 x 18 = 72 bits
+wire [11:0] datacb_addr;    // read address
+wire [71:0] datacb;         // data read, 4 samples = 4 x 18 = 72 bits
                             // the most recently written is at the higher position
 
 // The 16k x 18b circular buffer. 			
@@ -75,7 +75,7 @@ RAM_CB_16k  RAM_CB_16k_1(
 				
 //-----------------------------------------------------------------------------			   
 // The FIR calculator (only for the left channel)	
-FIR_MAC8  FIR_1(
+FIR_MAC4_2cycle  FIR_1(
                .clock( clockext100MHz ),
                .reset( reset ),
 			   .datain_ready( datain_ready ),   // data in ready, used to start calculation of the FIR

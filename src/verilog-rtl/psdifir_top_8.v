@@ -6,7 +6,7 @@ FEUP internal use only
 
 `timescale 1ns/1ps
 
-module psdifir_top( 
+module psdifir_top_8( 
                   clockext100MHz,	// master clock input (external oscillator 100MHz)
                   reset,            // master reset, synchronous, active high
 				  datain_ready,     // input data ready (input samples ready when high)
@@ -37,7 +37,7 @@ wire [283:0] coef_4_left, coef_4_right;
 // The coefficients memory (only the left read port is used in this example)
 // Disable the write interface. In this example the memory 
 // is used only with the preloaded data
-RAM_coefs  RAM_coefs_1( 
+RAM_coefs_8  RAM_coefs_1( 
               .clock( clockext100MHz ),
               .reset( reset ),
 			  .addrLrw( 14'd0 ),           // UNUSED - Write interface
@@ -64,7 +64,7 @@ wire [143:0] datacb;         // data read, 4 samples = 4 x 18 = 72 bits
                             // the most recently written is at the higher position
 
 // The 16k x 18b circular buffer. 			
-RAM_CB_16k  RAM_CB_16k_1( 
+RAM_CB_16k_8  RAM_CB_16k_1( 
                .clock( clockext100MHz ),
                .reset( reset ),
 			   .din( left_in ),
