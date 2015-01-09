@@ -31,7 +31,7 @@ output              dataout_ready;
 // Address buses:
 wire [10:0] addr_coef_left, addr_coef_right;
 // Data bus (read only):
-wire [283:0] coef_4_left, coef_4_right;
+wire [287:0] coef_4_left, coef_4_right;
 
 //-----------------------------------------------------------------------------
 // The coefficients memory (only the left read port is used in this example)

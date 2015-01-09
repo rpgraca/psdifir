@@ -58,23 +58,23 @@ reg [35:0] Rmem7[0:2047];
 
 initial
 begin
-  $readmemh("../sim_data/coefs_RAM0.hex", Rmem0 );
-  $readmemh("../sim_data/coefs_RAM1.hex", Rmem1 );
-  $readmemh("../sim_data/coefs_RAM2.hex", Rmem2 );
-  $readmemh("../sim_data/coefs_RAM3.hex", Rmem3 );
-  $readmemh("../sim_data/coefs_RAM4.hex", Rmem4 );
-  $readmemh("../sim_data/coefs_RAM5.hex", Rmem5 );
-  $readmemh("../sim_data/coefs_RAM6.hex", Rmem6 );
-  $readmemh("../sim_data/coefs_RAM7.hex", Rmem7 );
+  $readmemh("sim_data/coefs_RAM0.hex", Rmem0 );
+  $readmemh("sim_data/coefs_RAM1.hex", Rmem1 );
+  $readmemh("sim_data/coefs_RAM2.hex", Rmem2 );
+  $readmemh("sim_data/coefs_RAM3.hex", Rmem3 );
+  $readmemh("sim_data/coefs_RAM4.hex", Rmem4 );
+  $readmemh("sim_data/coefs_RAM5.hex", Rmem5 );
+  $readmemh("sim_data/coefs_RAM6.hex", Rmem6 );
+  $readmemh("sim_data/coefs_RAM7.hex", Rmem7 );
 
-  $readmemh("../sim_data/coefs_RAM0.hex", Lmem0 );
-  $readmemh("../sim_data/coefs_RAM1.hex", Lmem1 );
-  $readmemh("../sim_data/coefs_RAM2.hex", Lmem2 );
-  $readmemh("../sim_data/coefs_RAM3.hex", Lmem3 );
-  $readmemh("../sim_data/coefs_RAM4.hex", Lmem4 );
-  $readmemh("../sim_data/coefs_RAM5.hex", Lmem5 );
-  $readmemh("../sim_data/coefs_RAM6.hex", Lmem6 );
-  $readmemh("../sim_data/coefs_RAM7.hex", Lmem7 );
+  $readmemh("sim_data/coefs_RAM0.hex", Lmem0 );
+  $readmemh("sim_data/coefs_RAM1.hex", Lmem1 );
+  $readmemh("sim_data/coefs_RAM2.hex", Lmem2 );
+  $readmemh("sim_data/coefs_RAM3.hex", Lmem3 );
+  $readmemh("sim_data/coefs_RAM4.hex", Lmem4 );
+  $readmemh("sim_data/coefs_RAM5.hex", Lmem5 );
+  $readmemh("sim_data/coefs_RAM6.hex", Lmem6 );
+  $readmemh("sim_data/coefs_RAM7.hex", Lmem7 );
 end
 
 	

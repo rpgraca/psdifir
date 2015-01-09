@@ -9,8 +9,8 @@ module FIR_MAC8 (
 	input	   		   datain_ready ,  // data in ready, used to start calculation of the FIR
 	input	   [287:0] coefs_in     ,  // the 4 coefficients ready from memory
 	input	   [143:0] datain       ,  // data read from the circular buffer
-	output reg  [11:0] addr_coefs   ,  // address for the coefficient memory
-	output reg  [11:0] addr_data    ,  // address for the circular buffer
+	output reg  [10:0] addr_coefs   ,  // address for the coefficient memory
+	output reg  [10:0] addr_data    ,  // address for the circular buffer
 	output reg  [17:0] dataout      ,  // output data
 	output reg 		   dataout_ready   // pulse high when dataout is ready
 );
@@ -27,12 +27,12 @@ parameter   IDLE        = 3'd0,
 // Aditional registers:
 reg         [ 3:0] state;           										   // FSM state
 reg 	    [12:0] count_samples;   										   // counts cycles of the main FSM (# of samples / 4 )
-wire signed [67:0] mac_out_0, mac_out_1, mac_out_2, mac_out_3;                 // the output of the MAC unit
+wire signed [67:0] mac_out_0, mac_out_1, mac_out_2, mac_out_3, mac_out_4, mac_out_5, mac_out_6, mac_out_7;                 // the output of the MAC unit
 reg signed  [67:0] mac_out_0p1, mac_out_2p3, mac_out_4p5, mac_out_6p7;
 reg signed  [67:0] mac_out_0i1, mac_out_2i3;
 wire signed [67:0] mac_out_final;
-reg signed [17:0] data_0, data_1, data_2, data_3, data_4, data_5, data_6, data_7;
-reg signed [35:0] coef_0, coef_1, coef_2, coef_3, coef_4, coef_5, coef_6, coef_7;
+wire signed [17:0] data_0, data_1, data_2, data_3, data_4, data_5, data_6, data_7;
+wire signed [35:0] coef_0, coef_1, coef_2, coef_3, coef_4, coef_5, coef_6, coef_7;
 reg signed  [35:0] round_temp_out;
 reg 		[ 11:0] dataout_ready_d;
 reg				   rdataout_ready;
@@ -51,83 +51,37 @@ begin
 		dataout        <= 17'd0;
 		rdataout_ready <= 1'b0 ;
 		count_samples  <= 13'd0;
-		mac_out_0p1    <= 68'b0 ;
-		mac_out_2p3    <= 68'b0 ;
-		mac_out_4p5    <= 68'b0 ;
-		mac_out_6p7    <= 68'b0 ;
-		mac_out_0i1    <= 68'b0 ;
-		mac_out_2i3    <= 68'b0 ;
 		
-		data_0 <= 18'd0;
-		data_1 <= 18'd0;
-		data_2 <= 18'd0;
-		data_3 <= 18'd0;
-		data_4 <= 18'd0;
-		data_5 <= 18'd0;
-		data_6 <= 18'd0;
-		data_7 <= 18'd0;
-		coef_0 <= 36'd0;
-		coef_1 <= 36'd0;
-		coef_2 <= 36'd0;
-		coef_3 <= 36'd0;
-		coef_4 <= 36'd0;
-		coef_5 <= 36'd0;
-		coef_6 <= 36'd0;
-		coef_7 <= 36'd0;
 		reset_mac <= 1'b1;
 	end
 	else begin
 		case( state )
 			IDLE: begin
 				if ( datain_ready ) begin// new sample arrived, start calculation of output sample:
-					reset_mac     <= 1'b0;
-					addr_coefs    <= 12'd0;
-					addr_data     <= 12'd0;
-					dataout       <= 17'd0;
+					addr_coefs    <= 11'd0;
+					addr_data     <= 11'd0;
 					count_samples <= 13'd0;
-					mac_out_0p1    <= 68'b0 ;
-					mac_out_2p3    <= 68'b0 ;
-					mac_out_4p5    <= 68'b0 ;
-					mac_out_6p7    <= 68'b0 ;
-					mac_out_0i1    <= 68'b0 ;
-					mac_out_2i3    <= 68'b0 ;
 					state         <= WAIT_DATA  ;
 				end
 			end
 
 			WAIT_DATA: begin
-				state <= RUN;
+				reset_mac     <= 1'b0;
+				state		  <= RUN;
+				count_samples  <= count_samples + 1;
+
+				addr_coefs     <= addr_coefs    + 1;  // update address of coefficient memory
+				addr_data      <= addr_data     + 1;
 			end
-			
-		
-			
+
 			RUN: begin
 				//Update and Check RAM addresses
-				if ( count_samples == 2048 ) begin 
+				if ( count_samples == 2047 ) begin 
 					//dataout        <= round_temp_out;
 					rdataout_ready <= 1'b1          ;         // assert dataout ready
 					state          <= TERMINATE     ;
 				end 
 				else begin
-					// Read 4 past data samples from the circular buffer (current address)
-					data_0 <= datain[143:126]; // newest data sample
-					data_1 <= datain[125:108];
-					data_2 <= datain[107:90];
-					data_3 <= datain[89:72]; 
-					data_4 <= datain[71:54]; 
-					data_5 <= datain[53:36];
-					data_6 <= datain[35:18];
-					data_7 <= datain[17:0];  // oldest data sample
-
-					// Read 4 coefficients from the coefficients memory
-					coef_0 <= coefs_in[287:252];
-					coef_1 <= coefs_in[251:216];
-					coef_2 <= coefs_in[215:180];
-					coef_3 <= coefs_in[179:144];
-					coef_4 <= coefs_in[143:108];
-					coef_5 <= coefs_in[107:72];
-					coef_6 <= coefs_in[71:36];
-					coef_7 <= coefs_in[35:0];
 
 					count_samples  <= count_samples + 1;
 
@@ -151,8 +105,27 @@ begin
 	end
 end
 
+// Read 4 past data samples from the circular buffer (current address)
+assign data_0 = datain[143:126]; // newest data sample
+assign data_1 = datain[125:108];
+assign data_2 = datain[107:90];
+assign data_3 = datain[89:72]; 
+assign data_4 = datain[71:54]; 
+assign data_5 = datain[53:36];
+assign data_6 = datain[35:18];
+assign data_7 = datain[17:0];  // oldest data sample
 
-FIR_MAC18x36_top u0_mac (
+// Read 4 coefficients from the coefficients memory
+assign coef_0 = coefs_in[287:252];
+assign coef_1 = coefs_in[251:216];
+assign coef_2 = coefs_in[215:180];
+assign coef_3 = coefs_in[179:144];
+assign coef_4 = coefs_in[143:108];
+assign coef_5 = coefs_in[107:72];
+assign coef_6 = coefs_in[71:36];
+assign coef_7 = coefs_in[35:0];
+
+FIR_MAC18x36 u0_mac (
 	.clock	( clock     ),
 	.reset	( reset_mac ),
 	.A		( data_0    ),   
@@ -160,7 +133,7 @@ FIR_MAC18x36_top u0_mac (
 	.MAC_OUT( mac_out_0 )
 );
 
-FIR_MAC18x36_top u1_mac (
+FIR_MAC18x36 u1_mac (
 	.clock	( clock     ),
 	.reset	( reset_mac ),
 	.A		( data_1    ),   
@@ -168,7 +141,7 @@ FIR_MAC18x36_top u1_mac (
 	.MAC_OUT( mac_out_1 )
 );
 
-FIR_MAC18x36_top u2_mac (
+FIR_MAC18x36 u2_mac (
 	.clock	( clock     ),
 	.reset	( reset_mac ),
 	.A		( data_2    ),   
@@ -176,7 +149,7 @@ FIR_MAC18x36_top u2_mac (
 	.MAC_OUT( mac_out_2 )
 );
 
-FIR_MAC18x36_top u3_mac (
+FIR_MAC18x36 u3_mac (
 	.clock	( clock     ),
 	.reset	( reset_mac ),
 	.A		( data_3    ),   
@@ -184,7 +157,7 @@ FIR_MAC18x36_top u3_mac (
 	.MAC_OUT( mac_out_3 )
 );
 
-FIR_MAC18x36_top u4_mac (
+FIR_MAC18x36 u4_mac (
 	.clock	( clock     ),
 	.reset	( reset_mac ),
 	.A		( data_4    ),   
@@ -192,7 +165,7 @@ FIR_MAC18x36_top u4_mac (
 	.MAC_OUT( mac_out_4 )
 );
 
-FIR_MAC18x36_top u5_mac (
+FIR_MAC18x36 u5_mac (
 	.clock	( clock     ),
 	.reset	( reset_mac ),
 	.A		( data_5    ),   
@@ -200,7 +173,7 @@ FIR_MAC18x36_top u5_mac (
 	.MAC_OUT( mac_out_5 )
 );
 
-FIR_MAC18x36_top u6_mac (
+FIR_MAC18x36 u6_mac (
 	.clock	( clock     ),
 	.reset	( reset_mac ),
 	.A		( data_6    ),   
@@ -208,7 +181,7 @@ FIR_MAC18x36_top u6_mac (
 	.MAC_OUT( mac_out_6 )
 );
 
-FIR_MAC18x36_top u7_mac (
+FIR_MAC18x36 u7_mac (
 	.clock	( clock     ),
 	.reset	( reset_mac ),
 	.A		( data_7    ),   
@@ -257,7 +230,7 @@ always @(posedge clock) begin
 	end
 	else begin
 		dataout_ready_d[11:0] <= {dataout_ready_d[10:0], rdataout_ready};
-		dataout_ready 		 <= dataout_ready_d[6];
+		dataout_ready 		 <= dataout_ready_d[5];
 	end
 end
 

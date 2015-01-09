@@ -50,15 +50,15 @@ reg [35:0] Rmem3[0:4095];
 
 initial
 begin
-  $readmemh("../sim_data/coefs_RAM0.hex", Rmem0 );
-  $readmemh("../sim_data/coefs_RAM1.hex", Rmem1 );
-  $readmemh("../sim_data/coefs_RAM2.hex", Rmem2 );
-  $readmemh("../sim_data/coefs_RAM3.hex", Rmem3 );
+  $readmemh("sim_data/coefs4/coefs_RAM0.hex", Rmem0 );
+  $readmemh("sim_data/coefs4/coefs_RAM1.hex", Rmem1 );
+  $readmemh("sim_data/coefs4/coefs_RAM2.hex", Rmem2 );
+  $readmemh("sim_data/coefs4/coefs_RAM3.hex", Rmem3 );
 
-  $readmemh("../sim_data/coefs_RAM0.hex", Lmem0 );
-  $readmemh("../sim_data/coefs_RAM1.hex", Lmem1 );
-  $readmemh("../sim_data/coefs_RAM2.hex", Lmem2 );
-  $readmemh("../sim_data/coefs_RAM3.hex", Lmem3 );
+  $readmemh("sim_data/coefs4/coefs_RAM0.hex", Lmem0 );
+  $readmemh("sim_data/coefs4/coefs_RAM1.hex", Lmem1 );
+  $readmemh("sim_data/coefs4/coefs_RAM2.hex", Lmem2 );
+  $readmemh("sim_data/coefs4/coefs_RAM3.hex", Lmem3 );
 end
 
 	

@@ -117,7 +117,7 @@ end
 always  @(posedge clock)
 begin
     if ( wen & ( addrreg[2:0] == 3'b000 ) )
-	  RAM0[ addrreg[13:4] ] <= din;
+	  RAM0[ addrreg[13:3] ] <= din;
 end
 
 
@@ -125,21 +125,21 @@ end
 always  @(posedge clock)
 begin
     if ( wen & ( addrreg[2:0] == 3'b001 ) )
-	  RAM1[ addrreg[13:4] ] <= din;
+	  RAM1[ addrreg[13:3] ] <= din;
 end
 
 // write process RAM2:
 always  @(posedge clock)
 begin
     if ( wen & ( addrreg[2:0] == 3'b010 ) )
-	  RAM2[ addrreg[13:4] ] <= din;
+	  RAM2[ addrreg[13:3] ] <= din;
 end
 
 // write process RAM3:
 always  @(posedge clock)
 begin
     if ( wen & ( addrreg[2:0] == 3'b011 ) )
-	  RAM3[ addrreg[13:4] ] <= din;
+	  RAM3[ addrreg[13:3] ] <= din;
 end
 
 
@@ -147,28 +147,28 @@ end
 always  @(posedge clock)
 begin
     if ( wen & ( addrreg[2:0] == 3'b100 ) )
-	  RAM4[ addrreg[13:4] ] <= din;
+	  RAM4[ addrreg[13:3] ] <= din;
 end
 
 // write process RAM5:
 always  @(posedge clock)
 begin
     if ( wen & ( addrreg[2:0] == 3'b101 ) )
-	  RAM5[ addrreg[13:4] ] <= din;
+	  RAM5[ addrreg[13:3] ] <= din;
 end
 
 // write process RAM6:
 always  @(posedge clock)
 begin
     if ( wen & ( addrreg[2:0] == 3'b110 ) )
-	  RAM6[ addrreg[13:4] ] <= din;
+	  RAM6[ addrreg[13:3] ] <= din;
 end
 
 // write process RAM7:
 always  @(posedge clock)
 begin
     if ( wen & ( addrreg[2:0] == 3'b111 ) )
-	  RAM7[ addrreg[13:4] ] <= din;
+	  RAM7[ addrreg[13:3] ] <= din;
 end
 
 

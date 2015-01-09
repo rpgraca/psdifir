@@ -343,11 +343,33 @@ begin
     doutr3B <= RAM3B[ rd_addr_ram3[10:0] ];
 end
 
-// read RAM muxes:
-assign doutr0 = ~rd_addr_ram0[11] ? doutr0A : doutr0B;
-assign doutr1 = ~rd_addr_ram1[11] ? doutr1A : doutr1B;
-assign doutr2 = ~rd_addr_ram2[11] ? doutr2A : doutr2B;
-assign doutr3 = ~rd_addr_ram3[11] ? doutr3A : doutr3B;
+// Declarar os flip-flops:
+reg   rd_addr_ram0r, rd_addr_ram1r, 
+         rd_addr_ram2r, rd_addr_ram3r;
+ 
+// read RAM muxes selecionados com esses registos:
+assign doutr0 = ~rd_addr_ram0r ? doutr0A : doutr0B;
+assign doutr1 = ~rd_addr_ram1r ? doutr1A : doutr1B;
+assign doutr2 = ~rd_addr_ram2r ? doutr2A : doutr2B;
+assign doutr3 = ~rd_addr_ram3r ? doutr3A : doutr3B;
+
+// carregar os flip-flops com os sinais que antes 
+// eram usados nos multiplexers:
+always @(posedge clock)
+if ( reset )
+begin
+  rd_addr_ram0r <= 1'b0;
+  rd_addr_ram1r <= 1'b0;
+  rd_addr_ram2r <= 1'b0;
+  rd_addr_ram3r <= 1'b0;
+end
+else
+begin
+  rd_addr_ram0r <=  rd_addr_ram0[11];
+  rd_addr_ram1r <=  rd_addr_ram1[11];
+  rd_addr_ram2r <=  rd_addr_ram2[11];
+  rd_addr_ram3r <=  rd_addr_ram3[11];
+end
 
 
 

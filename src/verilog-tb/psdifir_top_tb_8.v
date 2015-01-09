@@ -36,8 +36,8 @@ reg [15:0] ram_address;
 
 initial
 begin
-    $readmemh("../sim_data/testsine.hex", ram_input_data );
-	$readmemh("../sim_data/goldenout.hex", ram_golden_out );
+    $readmemh("sim_data/testsine.hex", ram_input_data );
+	$readmemh("sim_data/goldenout.hex", ram_golden_out );
 end
 
 // initialize inputs and start clock:
@@ -91,7 +91,7 @@ begin
 	  
 	
 	  // Verify output data:
-	  if ( data_out != ram_golden_out[ ram_address ] )
+	  if ( data_out !== ram_golden_out[ ram_address ] )
 	  $display("ERROR at sample %d: expected %d (%05Hh), received %d (%05Hh)", 
 	               ram_address, ram_golden_out[ ram_address ], ram_golden_out[ ram_address ], data_out, data_out );
 	  // wait some more time.
