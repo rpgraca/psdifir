@@ -1,0 +1,69 @@
+Post Layout
+
+#1 Pipeline (adder 2 andares)
+
+Opt: 100 MHz
+9.969ns{1}   (Maximum frequency: 100.311MHz)
+
+
+Slice Logic Utilization		Used	Available 	Utilization
+
+Number of Slice Registers	3,590	54,576		6% 
+Number of Slice LUTs		4,492	27,288		16%  
+Number of occupied Slices	1,409	6,822		20%
+Number of MUXCYs used		3,208	13,644		23% 
+Number of LUT Flip Flop pairs 	5,054
+Number of bonded IOBs		76	218		34% 
+Number of RAMB16BWERs		96	116		82%
+Number of BUFG/BUFGMUXs		1	16		6%
+Number of DSP48A1s		32	58		55%
+
+#2 Pipeline (adder 2 andares)
+
+Opt: 111 MHz
+ 
+9.599ns{1}   (Maximum frequency: 104.178MHz)
+
+
+Number of Slice Registers	3,590	54,57	66% 
+Number of Slice LUTs		4,496	27,288	16% 
+Number of occupied Slices	1,444	6,822	21%
+Number of MUXCYs used		3,208	13,644	23%
+Number of LUT Flip Flop pairs 	4,962
+Number of bonded IOBs		76	218	34%
+Number of RAMB16BWERs		96	116	82%
+Number of BUFG/BUFGMUXs		1	16	6% 
+Number of DSP48A1s		32	58	55%
+
+#3 Pipeline (adder 3 andares)
+ 
+opt goal 111 MHz
+8.967ns{1}   (Maximum frequency: 111.520MHz)
+
+Number of Slice Registers	3,712	54,576	6%
+Number of Slice LUTs		4,612	27,288	16%
+Number of occupied Slices	1,466	6,822	21%
+Number of MUXCYs used		3,320	13,644	24%
+Number of LUT Flip Flop pairs	5,060
+Number of bonded IOBs		76	218	34%
+Number of RAMB16BWERs		96	116	82% 
+Number of BUFG/BUFGMUXs		1	16	6% 
+Number of DSP48A1s		32	58	55%
+ 
+#4 Pipeline (adder 3 andares)
+ 
+opt goal 117.647 MHz (8.5ns)
+9.384ns{1}   (Maximum frequency: 106.564MHz)
+
+
+Number of Slice Registers	3,712	54,576	6%
+Number of Slice LUTs		4,596	27,288	16%
+Number of occupied Slices	1,473	6,822	21%
+Number of MUXCYs used		3,320	13,644	24%
+Number of LUT Flip Flop pairs	5,054
+Number of bonded IOBs		76	218	34%
+Number of RAMB16BWERs		96	116	82%
+Number of BUFG/BUFGMUXs		1	16	6%
+Number of DSP48A1s		32	58	55%
+ 
+ 

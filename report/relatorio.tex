@@ -29,7 +29,7 @@ filters with up to 16384 coefficients, so that it meets timing requirements esta
 input signal bandwidth. Both input and output are stereo with 18 bit per channel. To achieve this
 speed requirement, parallel and pipeline architectures were explored during the development. We also
 found different solutions that are fast enough but with unequal FPGA resource utilization. The
-results were verified with behavioural and post-synthesis, as well as FPGA implementation using a
+results were verified with behavioral and post-synthesis, as well as FPGA implementation using a
 signal generator and an oscilloscope. Post-layout simulation failed, probably due to some error in
 the model of a RAM block, but tests done on the FPGA show that the behavior is correct.
 The input of IP, as well as the filter coefficients, are represented in two's complement with fixed
@@ -65,7 +65,13 @@ signal of 18 bits, the 15 most significant bits of the MAC output are truncated 
 lower 35 bits). Because of this, it is unnecessary to implement signals of 68 bits, because the
 occurrence of overflow in the intermediate computations will not affect the final result (unless
 overflow occurs in the output, due to filter coefficients that do not respect the no-gain
-restriction), and the internal signals of the MAC block were truncated to 53 bits.
+restriction), and the internal signals of the MAC block were truncated to 53 bits. However, this
+change does not result in any performance improvement, since the synthesis tools successfully detect
+these bits as unnecessary. Other optimizations were tried in this module, aiming to make the
+operation the most suitable possible for the DSP48 blocks, with the least possible logic besides the
+DSP48 itself. However, we soon realized that the block is already quite optimized, and that the RAM
+blocks will introduce the bottleneck to the critical path, so that optimization in the MAC speed
+would not be a major benefit for the project.
 
 As referred, both the circular buffer RAM and the RAM for the coefficients were extended to support
 a bandwidth of 8 coefficients/data samples per clock cycle. This was done by keeping the structure
@@ -86,7 +92,164 @@ implemented control mechanism for the reset of the MAC blocks in the end of the 
 output sample and a shift register to set the output ready signal in the clock cycle that the right
 result outputs the last pipeline stage.
 
+\section{Simulation and Results}
+Simulations were done using the testbench given, comparing the output of the filter with a golden
+output, for a given set of coefficients. We have confirmed that the output equals the golden output
+all the values tested in the testbench. In the first design stages of the project, simulations were
+performed only at a behavioral level, whereas in later stages, post-synthesis and post-translate
+simulations were done. Although these resulted in the expected correct response, post-routing
+simulations resulted in undefined results at the output, due to some problem in the RAM. We believe
+that this is due to some problem in the RAM cell module, and not to the project itself, since a
+correct behavior was obtained in an FPGA.
 
+As referred, several design options were compared. Using three pipeline stages for the summation of
+the MAC results, we obtained the following results, by post synthesis analysis, with optimization
+goal set as time, with high effort:
+
+\begin{verbatim}
+Maximum Clock Frequency: 125.455 MHz (7.971ns)
+
+Logic Utilization                   Used    Available   Utilization
+Number of Slice Registers           3711    54576       6%
+Number of Slice LUTs                5306    27288       19%
+Number of fully used LUT-FF pairs   3631    5386        67%
+Number of Block RAM/FIFO            96      116         82%
+Number of BUFG/BUFGCTRLs            1       16          6%
+Number of DSP48A1s                  32      58          55%
+\end{verbatim}
+
+With the same configuration, but with area as the optimization goal, we obtained:
+
+\begin{verbatim}
+Maximum Clock Frequency:  118.99 (8.404 ns)
+
+Logic Utilization                   Used    Available   Utilization
+Number of Slice Registers           3646    54576       6%
+Number of Slice LUTs                5297    27288       19%
+Number of fully used LUT-FF pairs   3616    5327        67%
+Number of Block RAM/FIFO            96      116	        82%
+Number of BUFG/BUFGCTRLs            1       16          6%
+Number of DSP48A1s                  32      58          55%
+\end{verbatim}
+
+Using 2 pipeline stages in the MAC, with speed as the optimization goal, we obtained:
+	
+\begin{verbatim}
+Maximum Clock Frequency: 121.908MHz (8.203ns)
+
+Logic Utilization                   Used    Available   Utilization
+Number of Slice Registers           3490    54576       6%
+Number of Slice LUTs                5303    27288       19%
+Number of fully used LUT-FF pairs   3266    5527        59%
+Number of Block RAM/FIFO            96      116         82%
+Number of BUFG/BUFGCTRLs            1       16          6%
+Number of DSP48A1s                  32      58          55%
+\end{verbatim}
+
+And with area as the optimization goal:
+
+\begin{verbatim}
+Maximum Clock Frequency: 118.948 MHz (8.407ns)
+
+Logic Utilization                   Used    Available   Utilization
+Number of Slice Registers           3433    54576       6%
+Number of Slice LUTs                5297    27288       19%
+Number of fully used LUT-FF pairs   3404    5326        63%	
+Number of Block RAM/FIFO            96      116         82%
+Number of BUFG/BUFGCTRLs            1       16          6%
+Number of DSP48A1s                  32      58          55%
+\end{verbatim}
+
+Using only one pipeline stage, with speed as optimization goal, we obtained:
+
+\begin{verbatim}
+Maximum Clock Frequency: 107.980 MHz (9.261ns)
+
+Logic Utilization                   Used    Available   Utilization
+Number of Slice Registers           3049    54576       5%
+Number of Slice LUTs                5294    27288       19%
+Number of fully used LUT-FF pairs   2593    5750        45%
+Number of Block RAM/FIFO            96      116         82%
+Number of BUFG/BUFGCTRLs            1       16          6%
+Number of DSP48A1s                  32      58          55%
+\end{verbatim}
+
+And using area as the optimization goal:
+
+\begin{verbatim}
+Maximum Clock Frequency: 108.036MHz (9.256ns)
+
+Logic Utilization                   Used    Available   Utilization
+Number of Slice Registers           3010    54576       5%
+Number of Slice LUTs                5297    27288       19%
+Number of fully used LUT-FF pairs   2980    5327        55%
+Number of Block RAM/FIFO            96      116         82%
+Number of BUFG/BUFGCTRLs            1       16          6%
+Number of DSP48A1s                  32      58          55%
+\end{verbatim}
+
+Based on these results, the usage of 2 stages seemed a reasonable option, and it was used for the
+generation of the next stages of the implementation. However, post-routing simulations suggest that
+the usage of three stages is a better option, when trying to accomplish the desired time
+performance.
+
+Optimizing with a goal of 100 MHz for the clock frequency, we obtained:
+
+\begin{verbatim}
+Maximum Clock Frequency: 100.311MHz (9.969ns)
+
+Slice Logic Utilization         Used    Available   Utilization
+Number of Slice Registers       3590    54576       6% 
+Number of Slice LUTs            4492    27288       16%  
+Number of occupied Slices       1409    6822        20%
+Number of MUXCYs used           3208    13644       23% 
+Number of LUT Flip Flop pairs   5054
+Number of RAMB16BWERs           96      116         82%
+Number of BUFG/BUFGMUXs         1       16          6%
+Number of DSP48A1s              32      58          55%
+\end{verbatim}
+
+The tools were, however, unable to optimize to a goal of 111.11 MHz, resulting in:
+ 
+\begin{verbatim}
+Maximum Clock Frequency: 104.178MHz (9.599ns)
+
+Slice Logic Utilization         Used    Available   Utilization
+Number of Slice Registers       3590    54576       6% 
+Number of Slice LUTs            4496    27288       16% 
+Number of occupied Slices       1444    6822        21%
+Number of MUXCYs used           3208    13644       23%
+Number of LUT Flip Flop pairs   4962
+Number of RAMB16BWERs           96      116         82%
+Number of BUFG/BUFGMUXs         1       16          6% 
+Number of DSP48A1s              32      58          55%
+\end{verbatim}
+
+Using three pipeline stages, this goal was successfully achieved, with the following results:
+
+\begin{verbatim}
+Maximum Clock Frequency: 111.520MHz (8.967ns)
+
+Slice Logic Utilization         Used    Available   Utilization
+Number of Slice Registers       3712    54576       6%
+Number of Slice LUTs            4612    27288       16%
+Number of occupied Slices       1466    6822        21%
+Number of MUXCYs used3320       13644   24%
+Number of LUT Flip Flop pairs   5060
+Number of RAMB16BWERs           96      116         82% 
+Number of BUFG/BUFGMUXs         1       16          6% 
+Number of DSP48A1s              32      58          55%
+\end{verbatim}
+
+Optimization for higher frequencies could not be successfully obtained by the tools.
+
+We see that with a small increase in the resource utilization, a higher frequency was obtained by
+the design with three pipeline stages. This implementation was tested in the FPGA, using a signal
+generator to generate the input and an oscilloscope to measure the output. We observed that the
+filter behavior was the expected when introducing both sine and square waves. However, we observed
+that overflow occurred when signals over a certain threshold were used. Analyzing the filter
+response, we observed that it shows gain for certain frequencies, which explains the overflow in the
+output.
+
+ 
 \end{document}
-
-

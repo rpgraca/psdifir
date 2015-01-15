@@ -1,0 +1,106 @@
+Goal:time
+#1 Pipelined 8-operand adder in MAC (adder de 8 op. em 3 stages)
+
+Opt.		: speed-high
+
+Freq. goal 	: 
+	
+Freq. Max 	: 125.455 MHz (7.971ns)
+
+
+Logic Utilization			Used	Available	Utilization
+Number of Slice Registers		3711	54576		6%
+Number of Slice LUTs			5306	27288		19%
+Number of fully used LUT-FF pairs	3631	5386		67%
+Number of bonded IOBs			76	218		34%
+Number of Block RAM/FIFO		96	116		82%
+Number of BUFG/BUFGCTRLs		1	16		6%
+Number of DSP48A1s			32	58		55%
+
+----------------------------------------------------------------------------
+
+#2 Pipelined 8-operand adder in MAC (adder de 8 op. em 2 stages)
+
+Opt.		: speed-high
+
+Freq. goal 	: 
+	
+Freq. Max 	: 121.908MHz (8.203ns)
+
+
+Logic Utilization			Used	Available	Utilization
+Number of Slice Registers		3490	54576		6%
+Number of Slice LUTs			5303	27288		19%
+Number of fully used LUT-FF pairs	3266	5527		59%
+Number of bonded IOBs			76	218		34%
+Number of Block RAM/FIFO		96	116		82%
+Number of BUFG/BUFGCTRLs		1	16		6%
+Number of DSP48A1s			32	58		55%
+
+----------------------------------------------------------------------------
+
+#3 single cycle 8-operand adder in MAC 
+
+Opt.		: speed-high
+
+Freq. goal 	: 
+	
+Freq. Max 	: 107.980 MHz (9.261ns)
+
+
+Logic Utilization			Used	Available	Utilization
+Number of Slice Registers		3049	54576		5%
+Number of Slice LUTs			5294	27288		19%
+Number of fully used LUT-FF pairs	2593	5750		45%
+Number of bonded IOBs			76	218		34%
+Number of Block RAM/FIFO		96	116		82%
+Number of BUFG/BUFGCTRLs		1	16		6%
+Number of DSP48A1s			32	58		55%
+
+----------------------------------------------------------------------------
+
+Goal:area
+
+#1 Pipelined 8-operand adder in MAC (adder de 8 op. em 3 stages)
+
+Freq. Max	:  118.99 (8.404 ns)
+
+Number of Slice Registers		3646	54576	6%
+Number of Slice LUTs			5297	27288	19%
+Number of fully used LUT-FF pairs	3616	5327	67%
+Number of bonded IOBs			76	218	34%
+Number of Block RAM/FIFO		96	116	82%
+Number of BUFG/BUFGCTRLs		1	16	6%
+Number of DSP48A1s			32	58	55%
+
+----------------------------------------------------------------------------
+
+#2 Pipelined 8-operand adder in MAC (adder de 8 op. em 2 stages)
+
+Opt.		: speed-high
+
+Freq. goal 	: 
+	
+Freq. Max	: 118.948 MHz (8.407ns)
+
+Number of Slice Registers		3433	54576	6%
+Number of Slice LUTs			5297	27288	19%
+Number of fully used LUT-FF pairs	3404	5326	63%	
+Number of bonded IOBs			76	218	34%
+Number of Block RAM/FIFO		96	116	82%
+Number of BUFG/BUFGCTRLs		1	16	6%
+Number of DSP48A1s			32	58	55%
+
+----------------------------------------------------------------------------
+
+#3 single cycle 8-operand adder in MAC 
+
+9.256ns (Maximum Frequency: 108.036MHz)
+
+Number of Slice Registers		3010	54576	5%
+Number of Slice LUTs			5297	27288	19%
+Number of fully used LUT-FF pairs	2980	5327	55%
+Number of bonded IOBs			76	218	34%
+Number of Block RAM/FIFO		96	116	82%
+Number of BUFG/BUFGCTRLs		1	16	6%
+Number of DSP48A1s			32	58	55%
