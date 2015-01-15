@@ -28,14 +28,14 @@ reg    [35:0] dataoutLrw;
 reg    [35:0] dataoutRrw;
 input         weL;
 input         weR;
-input  [10:0] addrL;      // read address, 12 bits for 4k
+input  [10:0] addrL;      // read address, 11 bits for 2k
 input  [10:0] addrR;
 output [287:0] coefL;				
 output [287:0] coefR;
 reg    [287:0] coefL;				
 reg    [287:0] coefR;
 
-// Memory for left coefficients, 4 banks, 36 x 4096:
+// Memory for left coefficients, 8 banks, 36 x 2048:
 reg [35:0] Lmem0[0:2047];				
 reg [35:0] Lmem1[0:2047];				
 reg [35:0] Lmem2[0:2047];				
@@ -45,7 +45,7 @@ reg [35:0] Lmem5[0:2047];
 reg [35:0] Lmem6[0:2047];				
 reg [35:0] Lmem7[0:2047];		
 
-// Memory for right coefficients, 4 banks, 36 x 4096:
+// Memory for left coefficients, 8 banks, 36 x 2048:
 reg [35:0] Rmem0[0:2047];				
 reg [35:0] Rmem1[0:2047];				
 reg [35:0] Rmem2[0:2047];				

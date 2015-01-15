@@ -50,12 +50,10 @@ input         clock;  // Master clock, active int he positive edge
 input         reset;  // master reset, synchronous and active high
 input  [17:0] din;    // input data port
 input         wen;    // Write enable
-input  [10:0] addrin; // Read address, 12 bits (4096 x 4 data words)
+input  [10:0] addrin; // Read address, 11 bits (2048 x 4 data words)
 output [143:0] dout;   // output read data: xn, xn-1  xn-2  xn-3
 
-// The 4 RAM blocks, total memory is 16 K x 18 bit
-// we need to divide the 4096 memories into two slices to convince XST
-// to use the memory parity bits as data bits:
+// The 8 RAM blocks, total memory is 16 K x 18 bit
 reg [17:0] RAM0 [0:2047];
 reg [17:0] RAM1 [0:2047];
 reg [17:0] RAM2 [0:2047];
@@ -173,15 +171,15 @@ end
 
 
 // Read process:
-// A read from address K will return the 4 data samples from the absolute read address:
-// wr_addr - (addrin+1)*4:
+// A read from address K will return the 8 data samples from the absolute read address:
+// wr_addr - (addrin+1)*8:
 
 wire [13:0] rd_addr, rd_addr0, rd_addr1, rd_addr2, rd_addr3, rd_addr4, rd_addr5, rd_addr6, rd_addr7;
 
 // Calculate read address from the current write address:
 assign rd_addr = addrreg - ( (addrin+1'b1) << 2'd3) ;
 
-// read address from memories 0, 1, 2 and 3:
+// read address from memories 0, 1, 2, 3, 4, 5, 6 and 7:
 assign rd_addr0 = rd_addr + 3'd0;
 assign rd_addr1 = rd_addr + 3'd1;
 assign rd_addr2 = rd_addr + 3'd2;
@@ -192,10 +190,10 @@ assign rd_addr6 = rd_addr + 3'd6;
 assign rd_addr7 = rd_addr + 3'd7;
 
 // Sequential read processes from each RAM
-// address is formed by the upper 10 bits
-// The lower 2 bits select the memory to read from
+// address is formed by the upper 9 bits
+// The lower 3 bits select the memory to read from
 
-// Define the read address for RAM0 ~ RAM3:
+// Define the read address for RAM0 ~ RAM7:
 reg [10:0] rd_addr_ram0;
 reg [10:0] rd_addr_ram1;
 reg [10:0] rd_addr_ram2;
@@ -588,7 +586,7 @@ begin
 end
 
 
-// output 4 x 18 bit = 72 bit bus:
+// output 8 x 18 bit = 144 bit bus:
 assign dout = { dout7, dout6, dout5, dout4, dout3, dout2, dout1, dout0};
 
   

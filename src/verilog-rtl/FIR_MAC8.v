@@ -26,15 +26,15 @@ parameter   IDLE        = 3'd0,
 			   
 // Aditional registers:
 reg         [ 3:0] state;           										   // FSM state
-reg 	    [12:0] count_samples;   										   // counts cycles of the main FSM (# of samples / 4 )
-wire signed [67:0] mac_out_0, mac_out_1, mac_out_2, mac_out_3, mac_out_4, mac_out_5, mac_out_6, mac_out_7;                 // the output of the MAC unit
-reg signed  [67:0] mac_out_0p1, mac_out_2p3, mac_out_4p5, mac_out_6p7;
-reg signed  [67:0] mac_out_0i1, mac_out_2i3;
-wire signed [67:0] mac_out_final;
+reg 	    [10:0] count_samples;   										   // counts cycles of the main FSM (# of samples / 4 )
+wire signed [52:0] mac_out_0, mac_out_1, mac_out_2, mac_out_3, mac_out_4, mac_out_5, mac_out_6, mac_out_7;                 // the output of the MAC unit
+reg signed  [52:0] mac_out_0p1, mac_out_2p3, mac_out_4p5, mac_out_6p7;
+reg signed  [52:0] mac_out_0i1, mac_out_2i3;
+wire signed [52:0] mac_out_final;
 wire signed [17:0] data_0, data_1, data_2, data_3, data_4, data_5, data_6, data_7;
 wire signed [35:0] coef_0, coef_1, coef_2, coef_3, coef_4, coef_5, coef_6, coef_7;
-reg signed  [35:0] round_temp_out;
-reg 		[ 11:0] dataout_ready_d;
+reg signed  [17:0] round_temp_out;
+reg 		[ 5:0] dataout_ready_d;
 reg				   rdataout_ready;
 reg				   reset_mac     ;
 
@@ -68,10 +68,10 @@ begin
 			WAIT_DATA: begin
 				reset_mac     <= 1'b0;
 				state		  <= RUN;
-				count_samples  <= count_samples + 1;
+				count_samples  <= count_samples + 1'b1;
 
-				addr_coefs     <= addr_coefs    + 1;  // update address of coefficient memory
-				addr_data      <= addr_data     + 1;
+				addr_coefs     <= addr_coefs    + 1'b1;  // update address of coefficient memory
+				addr_data      <= addr_data     + 1'b1;
 			end
 
 			RUN: begin
@@ -93,7 +93,7 @@ begin
 			
 			TERMINATE: begin
 				rdataout_ready <= 1'b0;          // deassert dataout ready, goto state IDLE waiting for new sample
-				if( dataout_ready_d[5] ) begin
+				if( dataout_ready_d[4] ) begin
 					dataout  <= round_temp_out;
 					reset_mac <= 1'b1;
 					state    <= IDLE;
@@ -219,7 +219,8 @@ end
 
 // Stage 7: final adder
 assign mac_out_final =  mac_out_0i1 + mac_out_2i3;
-//assign mac_out_final = mac_out_0 + mac_out_1 + mac_out_2 + mac_out_3;
+//assign mac_out_final =  mac_out_0p1 + mac_out_2p3 + mac_out_4p5 + mac_out_6p7;
+//assign mac_out_final = mac_out_0 + mac_out_1 + mac_out_2 + mac_out_3 + mac_out_4 + mac_out_5 + mac_out_6 + mac_out_7;
 
 
 // Delay: data output enable
@@ -229,7 +230,7 @@ always @(posedge clock) begin
 		dataout_ready 	<= 0;
 	end
 	else begin
-		dataout_ready_d[11:0] <= {dataout_ready_d[10:0], rdataout_ready};
+		dataout_ready_d[5:0] <= {dataout_ready_d[4:0], rdataout_ready};
 		dataout_ready 		 <= dataout_ready_d[5];
 	end
 end
@@ -241,12 +242,12 @@ end
 always @*
 begin
   if ( ~mac_out_final[34] )
-    round_temp_out = mac_out_final[35+18:35];
+    round_temp_out = mac_out_final[35+17:35];
   else	
     if ( mac_out_final[34] & ( | mac_out_final[33:0] ) )    // round up:
-      round_temp_out = mac_out_final[35+18:35] + 1;  
+      round_temp_out = mac_out_final[35+17:35] + 1;  
     else
-	  round_temp_out = mac_out_final[35+18:35] + mac_out_final[35];  
+	  round_temp_out = mac_out_final[35+17:35] + mac_out_final[35];  
 end
 
 endmodule

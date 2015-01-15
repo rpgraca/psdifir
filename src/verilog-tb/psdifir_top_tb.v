@@ -17,7 +17,7 @@ wire [17:0] data_out;
 wire        dataout_ready;
 reg  [17:0] data_in;
 
-psdifir_top  psdifir_top_1( 
+psdifir_top_8  psdifir_top_1( 
                   .clockext100MHz ( clock ),	      // master clock input (external oscillator 100MHz)
                   .reset( reset ),                 // master reset, synchronous, active high
 				  .datain_ready( data_ready ),     // input data ready (input samples ready when high)

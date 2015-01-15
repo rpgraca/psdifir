@@ -129,7 +129,7 @@ wire [13:0] addrlr;
 wire [35:0] datalrout;
 wire        wel, wer;
 wire [35:0] datalin, datarin;
-
+wire [17:0] left_fir_out, right_fir_out;
 // Command interpreter:
 ioports_psd14 ioports_psd14_1
              ( 
@@ -229,21 +229,8 @@ assign LEFT_ing  = sw5 ? (LEFT_in * gain) : LEFT_in;
 assign RIGHT_ing = sw5 ? (RIGHT_in * gain) : RIGHT_in;
 
 
-// Generate a test signal, sawtooth. Frequeny = 381Hz * (P6+1) 
-// Selected with SW7 (left channel) and SW6 (right channel)
-reg [17:0] sawtooth;
-always @(posedge clockext100MHz)
-begin
-   if ( reset )
-	  sawtooth <= 18'd0;
-	else
-	begin
-	  sawtooth <= sawtooth + P6out[3:0] + 1;
-	end
-end
-
-assign LEFT_out   = sw7 ? sawtooth : LEFT_ing;					 
-assign RIGHT_out  = sw6 ? sawtooth : RIGHT_ing;					 
+assign LEFT_out   = sw6 ? left_fir_out : LEFT_ing;					 
+assign RIGHT_out  = sw6 ? right_fir_out : RIGHT_ing;					 
 					 				 
 
 // generate a mono signal rectified to connect the high-order bits to the LEDs:
@@ -270,26 +257,44 @@ assign P5in = P5out;
 assign P6in = P6out;
 
 // dummy wires to read the coefs memory:
-wire [143:0] dummyL, dummyR;
+wire [287:0] dummyL, dummyR;
 
-RAM_coefs  RAM_coefs_1( 
-              .clock( clockext100MHz ),
-              .reset( reset ),
-				  .addrLrw( addrlr ),
-				  .addrRrw( addrlr ),
-				  .datainLrw( datalrout ),
-				  .datainRrw( datalrout ),
-				  .dataoutLrw( datalin ),
-				  .dataoutRrw( datarin ),
-				  .weL( wel ),
-				  .weR( wer ),
-				  
-				  // User read interface, synchronous read:
-				  .addrL( PBout[11:0] ), // Connect this to the address bus for the left coefficients
-				  .addrR( PBout[11:0] ), // Connect this to the address bus for the right coefficients
-				  .coefL( dummyL ),      // 144 bit coefficients ( 4 x 36 )
-				  .coefR( dummyR )       // 144 bit coefficients ( 4 x 36 )
-                );
+wire [10:0] addrout;
+/*
+RAM_coefs_8  RAM_coefs_1( 
+	.clock	      ( clockext100MHz ),
+	.reset         ( reset          ),
+	.addrLrw       ( addrlr         ),
+	.addrRrw       ( addrlr         ),
+	.datainLrw     ( datalrout      ),
+	.datainRrw     ( datalrout      ),
+	.dataoutLrw    ( datalin        ),
+	.dataoutRrw    ( datarin        ),
+	.weL           ( wel            ),
+	.weR           ( wer            ),
+
+	// User read interface, synchronous read:
+	.addrL         ( addrout[10:0]    ), // Connect this to the address bus for the left coefficients
+	.addrR         ( addrout[10:0]    ), // Connect this to the address bus for the right coefficients
+	.coefL         ( dummyL         ),      // 144 bit coefficients ( 4 x 36 )
+	.coefR         ( dummyR         )       // 144 bit coefficients ( 4 x 36 )
+);
+	*/			
+psdifir_top_8  psdifir_top_1( 
+	.clockext100MHz ( clockext100MHz  ),	      // master clock input (external oscillator 100MHz)
+	.reset			 ( reset 			 ),                 // master reset, synchronous, active high
+	.datain_ready	 ( DIN_RDY         ),     // input data ready (input samples ready when high)
+	.left_in			 ( LEFT_ing        ),             // audio stream inputs
+	.right_in		 ( RIGHT_ing       ),              // UNUSED        
+	.left_out		 ( left_fir_out    ),           // audio stream outputs
+	.right_out		 ( right_fir_out   ),
+	//.addr_coef_left ( addrout[10:0]     ),      // address bus for the left coefficients
+	//.addr_coef_right(      ),               // adress bus for the right coefficients
+	//.coef_4_left    ( dummyL          ),                    // 144 bit, 4 left coefficients ( 4 x 36 )
+	//.coef_4_right   ( dummyR          ),
+	.dataout_ready  (                 )				  
+);
+
 				
 // Do some assignment to output ports to avoid trimming the RAM logic
 assign P7in = dummyL[31:0] ^ dummyL[63:32] ^ dummyL[95:64] ^ dummyL[127:96] ^ dummyL[143:128] ^

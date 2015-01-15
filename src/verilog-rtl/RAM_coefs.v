@@ -46,7 +46,7 @@ reg [35:0] Rmem0[0:4095];
 reg [35:0] Rmem1[0:4095];				
 reg [35:0] Rmem2[0:4095];				
 reg [35:0] Rmem3[0:4095];		
-
+/*
 
 initial
 begin
@@ -60,7 +60,7 @@ begin
   $readmemh("sim_data/coefs4/coefs_RAM2.hex", Lmem2 );
   $readmemh("sim_data/coefs4/coefs_RAM3.hex", Lmem3 );
 end
-
+*/
 	
 //------------------------------------------
 // Write process for left memory:
