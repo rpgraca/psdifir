@@ -50,9 +50,8 @@ was the one given, with small modifications, since some of the bits in the accum
 original block were not used. The MAC block, that is supposed to multiply an input of 18 bits with
 one other of 36 bits and then to add the product to an accumulator. The block used divides input of
 36 bits in an upper part of 18 bits and in a lower part and executes the multiplication and the
-accumulation of both parts in parallel. 
-
-Because the FGPA used has Hardware optimized for the computation of MACs with signed 18 bits input (DSP48 blocks), and the lower 18 bits of the 36 bit
+accumulation of both parts in parallel. Because the FGPA used has Hardware optimized for the
+computation of MACs with signed 18 bits input (DSP48 blocks), and the lower 18 bits of the 36 bit
 input should be used in the MAC in an unsigned fashion, operations with the lower 18 bits were
 further divided, being that the lower 17 bits were multiplied with the 18 bits input, being forced
 to signed by introducing 0 in the MSB. The 18th bit of the 36 bit input was dealt with individually,
@@ -95,8 +94,19 @@ output sample and a shift register to set the output ready signal in the clock c
 result outputs the last pipeline stage.
 
 \subsection{Control logic}
-
-The dataflow is controlled by a 4-state finite-state machine (FSM). There is a steady state called \emph{IDLE} in which the controller waits for the data source (LM4550 codec controller in our case) to  communicate the arrival of new data by setting a enable signal. Upon this event, the sample counter and memory addresses are reset and the state changes to \emph{WAIT\_DATA}, which only causes a cycle delay to allow the new data written in the circular buffer be available to read by the multiply-accumulate (MAC) modules, since this is a dual-port memory. After this the FIR filter computation starts,the FSM settles in the \emph{RUN} state throughout the 16384 MAC operations, which are complete in only 2048 cycles due to the 8-way parallel pipelined architecture implemented. The sample counter, data and coefficient memory addresses are simultaneously incremented. Execution would end when the sample counter reaches 2048 if this was a 1-cyle core, but in our case a final \emph{TERMITATE} state is needed to drain the pipeline. It waits for the output data ready signal, set right before the last state transition, at the end of a shift register that is as long as the number of pipeline stages.
+The dataflow is controlled by a 4-state finite-state machine (FSM). There is a steady state called
+\emph{IDLE} in which the controller waits for the data source (LM4550 codec controller in our case)
+to  communicate the arrival of new data by setting a enable signal. Upon this event, the sample
+counter and memory addresses are reset and the state changes to \emph{WAIT\_DATA}, which only causes
+a cycle delay to allow the new data written in the circular buffer be available to read by the
+multiply-accumulate (MAC) modules, since this is a dual-port memory. After this the FIR filter
+computation starts,the FSM settles in the \emph{RUN} state throughout the 16384 MAC operations,
+which are complete in only 2048 cycles due to the 8-way parallel pipelined architecture implemented.
+The sample counter, data and coefficient memory addresses are simultaneously incremented. Execution
+would end when the sample counter reaches 2048 if this was a 1-cyle core, but in our case a final
+\emph{TERMITATE} state is needed to drain the pipeline. It waits for the output data ready signal,
+set right before the last state transition, at the end of a shift register that is as long as the
+number of pipeline stages.
 
 \section{Simulation and Results}
 Simulations were done using the testbench given, comparing the output of the filter with a golden
