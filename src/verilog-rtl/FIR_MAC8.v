@@ -93,7 +93,7 @@ begin
 			
 			TERMINATE: begin
 				rdataout_ready <= 1'b0;          // deassert dataout ready, goto state IDLE waiting for new sample
-				if( dataout_ready_d[4] ) begin
+				if( dataout_ready_d[5] ) begin
 					dataout  <= round_temp_out;
 					reset_mac <= 1'b1;
 					state    <= IDLE;
