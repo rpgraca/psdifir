@@ -54,7 +54,7 @@ computation of MACs with signed 18 bits input (DSP48 blocks), and the lower 18 b
 input should be used in the MAC in an unsigned fashion, operations with the lower 18 bits were
 further divided, being that the lower 17 bits were multiplied with the 18 bits input, being forced
 to signed by introducing 0 in the MSB. The 18th bit of the 36 bit input was dealt with individually,
-being that its influence in the result is given by a multiplexor that outputs 16b'0 if it 0, or the
+being that its influence in the result is given by a multiplexor that outputs 16'b0 if it 0, or the
 16 bit input if it is 1. This allows to take advantage of the usage of the DSP48 blocks, optimizing
 the performance of the MAC. This MAC block has 4 pipeline stages Since the inputs of the multiplier
 stage are signals of 18 and 36 bits, the output has 54 bits. The output of the MAC is the result of
